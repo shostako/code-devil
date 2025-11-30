@@ -7,11 +7,8 @@ interface EntryWithRelations extends Entry {
   tags?: Tag[];
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type SupabaseRow = any;
-
 // Helper to transform DB row to Entry type
-function transformEntry(row: SupabaseRow): Entry {
+function transformEntry(row: Record<string, unknown>): Entry {
   return {
     id: row.id as string,
     slug: row.slug as string,
@@ -43,7 +40,7 @@ export async function getLanguages(): Promise<Language[]> {
     return [];
   }
 
-  return (data as SupabaseRow[]) as Language[];
+  return data as unknown as Language[];
 }
 
 export async function getLanguageBySlug(slug: string): Promise<Language | null> {
@@ -59,7 +56,7 @@ export async function getLanguageBySlug(slug: string): Promise<Language | null> 
     return null;
   }
 
-  return (data as SupabaseRow) as Language;
+  return data as unknown as Language;
 }
 
 export async function getCategoriesByLanguage(languageId: string): Promise<Category[]> {
@@ -75,7 +72,7 @@ export async function getCategoriesByLanguage(languageId: string): Promise<Categ
     return [];
   }
 
-  return (data as SupabaseRow[]) as Category[];
+  return data as unknown as Category[];
 }
 
 export async function getEntriesByLanguage(langSlug: string): Promise<Entry[]> {
@@ -93,7 +90,7 @@ export async function getEntriesByLanguage(langSlug: string): Promise<Entry[]> {
     return [];
   }
 
-  const langData = language as SupabaseRow;
+  const langData = language as unknown as { id: string };
 
   // Then get entries
   const { data, error } = await supabase
@@ -111,7 +108,8 @@ export async function getEntriesByLanguage(langSlug: string): Promise<Entry[]> {
     return [];
   }
 
-  return ((data as SupabaseRow[]) || []).map((row: SupabaseRow) => {
+  const rows = data as unknown as Array<Record<string, unknown>>;
+  return (rows || []).map((row) => {
     const entry = transformEntry(row);
     if (row.categories) {
       entry.category = row.categories as Category;
@@ -138,7 +136,7 @@ export async function getEntryBySlug(
     return null;
   }
 
-  const langData = language as SupabaseRow;
+  const langData = language as unknown as { id: string };
 
   // Get the entry with category
   const { data, error } = await supabase
@@ -157,7 +155,7 @@ export async function getEntryBySlug(
     return null;
   }
 
-  const row = data as SupabaseRow;
+  const row = data as unknown as Record<string, unknown>;
   const entry = transformEntry(row) as EntryWithRelations;
   if (row.categories) {
     entry.category = row.categories as Category;
@@ -172,8 +170,9 @@ export async function getEntryBySlug(
     .eq("entry_id", entry.id);
 
   if (!tagError && tagData) {
-    entry.tags = (tagData as SupabaseRow[])
-      .map((t: SupabaseRow) => t.tags as Tag)
+    const tagRows = tagData as unknown as Array<{ tags: Tag | null }>;
+    entry.tags = tagRows
+      .map((t) => t.tags)
       .filter((t): t is Tag => t !== null);
   }
 
@@ -193,25 +192,40 @@ export async function getAllEntries(): Promise<Entry[]> {
     return [];
   }
 
-  return ((data as SupabaseRow[]) || []).map(transformEntry);
+  const rows = data as unknown as Array<Record<string, unknown>>;
+  return (rows || []).map(transformEntry);
 }
 
 export async function searchEntries(
   query: string,
   langSlug?: string
 ): Promise<Entry[]> {
+  // Use direct query instead of RPC to avoid type issues
   const supabase = await createClient();
-  const { data, error } = await supabase.rpc("search_entries", {
-    query,
-    lang: langSlug || null,
-  } as SupabaseRow);
+
+  let queryBuilder = supabase
+    .from("entries")
+    .select(`
+      id, slug, name, language_id, short_desc, sarcastic_title,
+      languages!inner(slug)
+    `)
+    .eq("is_published", true)
+    .or(`name.ilike.%${query}%,short_desc.ilike.%${query}%,sarcastic_title.ilike.%${query}%`)
+    .limit(20);
+
+  if (langSlug) {
+    queryBuilder = queryBuilder.eq("languages.slug", langSlug);
+  }
+
+  const { data, error } = await queryBuilder;
 
   if (error) {
     console.error("Error searching entries:", error);
     return [];
   }
 
-  return ((data as SupabaseRow[]) || []).map((row: SupabaseRow) => ({
+  const rows = data as unknown as Array<Record<string, unknown>>;
+  return (rows || []).map((row) => ({
     id: row.id as string,
     slug: row.slug as string,
     name: row.name as string,
