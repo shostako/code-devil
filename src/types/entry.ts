@@ -30,6 +30,7 @@ export interface Language {
   id: string;
   slug: string;
   name: string;
+  description?: string;
   icon_url?: string;
   created_at: string;
 }

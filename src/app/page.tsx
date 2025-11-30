@@ -2,23 +2,10 @@ import Link from "next/link";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import GlobalSearch from "@/components/search/GlobalSearch";
+import { getLanguagesWithCount } from "@/lib/supabase/queries";
 
-const languages = [
-  {
-    slug: "python",
-    name: "Python",
-    description: "シンプルさと読みやすさを追求した言語。インデントが命。",
-    entryCount: 5,
-  },
-  {
-    slug: "javascript",
-    name: "JavaScript",
-    description: "Web開発の覇者。型がないことを自由と呼ぶか混沌と呼ぶか。",
-    entryCount: 5,
-  },
-];
-
-export default function Home() {
+export default async function Home() {
+  const languages = await getLanguagesWithCount();
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -54,7 +41,7 @@ export default function Home() {
                   {lang.name}
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400 mb-4">
-                  {lang.description}
+                  {lang.description || `${lang.name}のリファレンス`}
                 </p>
                 <span className="text-sm text-gray-500">
                   {lang.entryCount} エントリ

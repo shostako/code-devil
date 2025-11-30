@@ -28,6 +28,10 @@ function transformEntry(row: Record<string, unknown>): Entry {
   };
 }
 
+export interface LanguageWithCount extends Language {
+  entryCount: number;
+}
+
 export async function getLanguages(): Promise<Language[]> {
   const supabase = await createClient();
   const { data, error } = await supabase
@@ -41,6 +45,43 @@ export async function getLanguages(): Promise<Language[]> {
   }
 
   return data as unknown as Language[];
+}
+
+export async function getLanguagesWithCount(): Promise<LanguageWithCount[]> {
+  const supabase = await createClient();
+
+  // Get all languages
+  const { data: languages, error: langError } = await supabase
+    .from("languages")
+    .select("*")
+    .order("name");
+
+  if (langError || !languages) {
+    console.error("Error fetching languages:", langError);
+    return [];
+  }
+
+  // Get entry counts for each language
+  const languagesWithCount = await Promise.all(
+    (languages as unknown as Language[]).map(async (lang) => {
+      const { count, error: countError } = await supabase
+        .from("entries")
+        .select("*", { count: "exact", head: true })
+        .eq("language_id", lang.id)
+        .eq("is_published", true);
+
+      if (countError) {
+        console.error("Error counting entries:", countError);
+      }
+
+      return {
+        ...lang,
+        entryCount: count || 0,
+      };
+    })
+  );
+
+  return languagesWithCount;
 }
 
 export async function getLanguageBySlug(slug: string): Promise<Language | null> {
