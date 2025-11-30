@@ -3,7 +3,7 @@ import Link from "next/link";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import EntryDetail from "@/components/entry/EntryDetail";
-import { getEntryBySlug, getLanguageBySlug } from "@/lib/mockData";
+import { getEntryBySlug, getLanguageBySlug } from "@/lib/data";
 
 interface Props {
   params: Promise<{ lang: string; slug: string }>;
@@ -11,10 +11,10 @@ interface Props {
 
 export async function generateMetadata({ params }: Props) {
   const { lang, slug } = await params;
-  const entry = getEntryBySlug(lang, slug);
+  const entry = await getEntryBySlug(lang, slug);
   if (!entry) return { title: "Not Found" };
 
-  const language = getLanguageBySlug(lang);
+  const language = await getLanguageBySlug(lang);
 
   return {
     title: `${entry.name} - ${language?.name || lang} - CodeDevil`,
@@ -24,8 +24,8 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function EntryPage({ params }: Props) {
   const { lang, slug } = await params;
-  const entry = getEntryBySlug(lang, slug);
-  const language = getLanguageBySlug(lang);
+  const entry = await getEntryBySlug(lang, slug);
+  const language = await getLanguageBySlug(lang);
 
   if (!entry || !language) {
     notFound();

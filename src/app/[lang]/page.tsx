@@ -3,7 +3,7 @@ import Link from "next/link";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import EntryListWithSearch from "@/components/entry/EntryListWithSearch";
-import { getEntriesByLanguage, getLanguageBySlug } from "@/lib/mockData";
+import { getEntriesByLanguage, getLanguageBySlug } from "@/lib/data";
 
 interface Props {
   params: Promise<{ lang: string }>;
@@ -11,7 +11,7 @@ interface Props {
 
 export async function generateMetadata({ params }: Props) {
   const { lang } = await params;
-  const language = getLanguageBySlug(lang);
+  const language = await getLanguageBySlug(lang);
   if (!language) return { title: "Not Found" };
 
   return {
@@ -22,13 +22,13 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function LanguagePage({ params }: Props) {
   const { lang } = await params;
-  const language = getLanguageBySlug(lang);
+  const language = await getLanguageBySlug(lang);
 
   if (!language) {
     notFound();
   }
 
-  const entries = getEntriesByLanguage(lang);
+  const entries = await getEntriesByLanguage(lang);
 
   return (
     <div className="min-h-screen flex flex-col">
