@@ -1,8 +1,8 @@
 # プロジェクト進捗状況
 
 ## 現在の状態
-- **最終更新**: 2025-11-30 21:05
-- **アクティブタスク**: Phase 2 Supabase連携完了
+- **最終更新**: 2025-12-01 05:10
+- **アクティブタスク**: Phase 4 コンテンツ拡充完了
 
 ## 完了済み
 - [x] プロジェクト作成
@@ -29,14 +29,23 @@
   - 本番データでの動作確認OK
 
 ## 未完了・保留
-- [ ] Phase 3 - デプロイ（Vercel）
+- [x] Phase 3 - デプロイ（Render）
+- [x] Phase 4 - コンテンツ拡充
+  - Bash/Shell言語追加（12エントリ）
+  - 既存Python/JSエントリの皮肉強化（10件）
 
 ## 次セッションへの引き継ぎ
-- **次のアクション**: Vercelへのデプロイ
+- **次のアクション**: 追加機能実装（必要に応じて）
 - **重要な発見**:
   - SupabaseのUIが更新され、anon keyは「Publishable key」という名前に変更された
   - Next.js 14.2はnext.config.tsをサポートしない（.mjs必須）
+  - Render環境には@typescript-eslintがないので、eslint-disableコメントでこのルールを参照すると失敗する
+  - `as unknown as Type`のダブルキャストパターンが型安全なSupabase連携に有効
 - **参照すべきリソース**: `.tmp/requirements.md`, `.tmp/design.md`
+
+## Render情報
+- **Service Name**: code-devil
+- **GitHub**: shostako/code-devil
 
 ## Supabase情報
 - **Project URL**: https://ginyzujmhlowxflslzvs.supabase.co
@@ -51,5 +60,6 @@ npm run dev -- -H 0.0.0.0 -p 3000
 ```
 
 ## 直近のGitコミット
+- 4a6c8b1 fix: Remove @typescript-eslint dependency for Render deployment
+- 7f95808 feat: Phase 2 Supabase連携完了
 - bb60d56 docs: PROGRESS.md更新（Phase 2準備完了）
-- 8eaf0a7 feat: Phase 2 Supabase連携準備
