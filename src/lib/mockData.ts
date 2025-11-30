@@ -383,3 +383,7 @@ export function getLanguageBySlug(slug: string): Language | undefined {
 export function getCategoriesByLanguage(langId: string): Category[] {
   return categories.filter(c => c.language_id === langId);
 }
+
+export function getAllEntries(): Entry[] {
+  return entries.filter(e => e.is_published);
+}

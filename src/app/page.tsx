@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import GlobalSearch from "@/components/search/GlobalSearch";
 
 const languages = [
   {
@@ -30,11 +31,13 @@ export default function Home() {
           <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-400 mb-2">
             悪魔のプログラミング辞典
           </p>
-          <p className="text-gray-500 dark:text-gray-500 max-w-2xl mx-auto">
+          <p className="text-gray-500 dark:text-gray-500 max-w-2xl mx-auto mb-8">
             公式ドキュメントでは教えてくれない、現場の「あるある」と落とし穴を
             <br className="hidden md:block" />
             皮肉を交えてお届けします。
           </p>
+          {/* Global Search */}
+          <GlobalSearch />
         </section>
 
         {/* Language Selection */}

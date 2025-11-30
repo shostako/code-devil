@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import EntryList from "@/components/entry/EntryList";
+import EntryListWithSearch from "@/components/entry/EntryListWithSearch";
 import { getEntriesByLanguage, getLanguageBySlug } from "@/lib/mockData";
 
 interface Props {
@@ -51,8 +51,8 @@ export default async function LanguagePage({ params }: Props) {
           </p>
         </div>
 
-        {/* Entry List */}
-        <EntryList entries={entries} language={language} />
+        {/* Entry List with Search */}
+        <EntryListWithSearch entries={entries} language={language} />
       </main>
       <Footer />
     </div>
