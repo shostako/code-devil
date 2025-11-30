@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import Sidebar from "@/components/layout/Sidebar";
 import EntryListWithSearch from "@/components/entry/EntryListWithSearch";
 import { getEntriesByLanguage, getLanguageBySlug } from "@/lib/data";
 
@@ -33,27 +34,33 @@ export default async function LanguagePage({ params }: Props) {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-1 max-w-6xl mx-auto px-4 py-8 w-full">
-        {/* Breadcrumb */}
-        <nav className="text-sm text-gray-500 mb-6">
-          <Link href="/" className="hover:text-red-600">
-            ホーム
-          </Link>
-          <span className="mx-2">/</span>
-          <span className="text-gray-900 dark:text-gray-100">{language.name}</span>
-        </nav>
+      <div className="flex-1 flex">
+        {/* Left Sidebar */}
+        <Sidebar />
 
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">{language.name}</h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            {entries.length} エントリ
-          </p>
-        </div>
+        {/* Main Content */}
+        <main className="flex-1 px-6 py-8 overflow-auto">
+          {/* Breadcrumb */}
+          <nav className="text-sm text-gray-500 mb-6">
+            <Link href="/" className="hover:text-red-600">
+              ホーム
+            </Link>
+            <span className="mx-2">/</span>
+            <span className="text-gray-900 dark:text-gray-100">{language.name}</span>
+          </nav>
 
-        {/* Entry List with Search */}
-        <EntryListWithSearch entries={entries} language={language} />
-      </main>
+          {/* Header */}
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold mb-2">{language.name}</h1>
+            <p className="text-gray-600 dark:text-gray-400">
+              {entries.length} エントリ
+            </p>
+          </div>
+
+          {/* Entry List with Search */}
+          <EntryListWithSearch entries={entries} language={language} />
+        </main>
+      </div>
       <Footer />
     </div>
   );

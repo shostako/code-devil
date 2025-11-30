@@ -1,0 +1,56 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+
+interface Language {
+  slug: string;
+  name: string;
+}
+
+export default function Sidebar() {
+  const pathname = usePathname();
+  const [languages, setLanguages] = useState<Language[]>([]);
+
+  useEffect(() => {
+    fetch("/api/languages")
+      .then((res) => res.json())
+      .then((data) => setLanguages(data))
+      .catch(() => {
+        setLanguages([
+          { slug: "python", name: "Python" },
+          { slug: "javascript", name: "JavaScript" },
+          { slug: "bash", name: "Bash" },
+        ]);
+      });
+  }, []);
+
+  const isActive = (slug: string) => pathname.startsWith(`/${slug}`);
+
+  return (
+    <aside className="w-48 shrink-0 border-r border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/50">
+      <nav className="sticky top-16 p-4">
+        <h2 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
+          Languages
+        </h2>
+        <ul className="space-y-1">
+          {languages.map((lang) => (
+            <li key={lang.slug}>
+              <Link
+                href={`/${lang.slug}`}
+                className={`block px-3 py-2 rounded-lg text-sm transition-colors ${
+                  isActive(lang.slug)
+                    ? "bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-500 font-medium"
+                    : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                }`}
+              >
+                {lang.name}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </aside>
+  );
+}

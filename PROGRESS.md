@@ -1,7 +1,7 @@
 # プロジェクト進捗状況
 
 ## 現在の状態
-- **最終更新**: 2025-12-01 05:37
+- **最終更新**: 2025-12-01 06:01
 - **アクティブタスク**: Phase 4 コンテンツ拡充完了
 
 ## 完了済み
@@ -60,5 +60,5 @@ npm run dev -- -H 0.0.0.0 -p 3000
 ```
 
 ## 直近のGitコミット
-- 713763b feat: Add Bash/Shell language and enhance sarcasm
-- 4a6c8b1 fix: Remove @typescript-eslint dependency for Render deployment
+- 6467c7f feat: UI改善 - ヘッダーナビ左配置＋リスト/グリッド切替
+- 66548e7 fix: ホームページを動的言語取得に変更
