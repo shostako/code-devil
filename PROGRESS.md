@@ -19,4 +19,4 @@
 - **参照すべきリソース**: `.tmp/requirements.md`, `.tmp/design.md`
 
 ## 直近のGitコミット
-- 初期コミット: プロジェクト作成
+- d2cda3c Initial project setup with Kiro-Style template
