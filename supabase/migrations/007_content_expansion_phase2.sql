@@ -1,6 +1,8 @@
--- 007: コンテンツ拡充フェーズ2
--- Python +30件, JavaScript +30件, Bash +20件
--- 合計80件追加で各言語50件程度に
+-- 007: コンテンツ拡充フェーズ2（統合版）
+-- Python 29件（新規追加）
+-- JavaScript 25件（重複除外: array-map, array-filter, async-await, console-log）
+-- Bash 17件（重複除外: chmod, if, for）
+-- 合計71件追加
 
 -- ===========================================
 -- PYTHON 追加エントリ (30件)
@@ -227,20 +229,6 @@ ARRAY['globalと違って一つ外のスコープ', 'クロージャで状態を
 INSERT INTO entries (slug, name, language_id, category_id, entry_type, difficulty, short_desc, full_desc, code_example, sarcastic_title, sarcastic_notes, is_published) VALUES
 
 -- 配列メソッド
-('array-map', 'Array.map()', '22222222-2222-2222-2222-222222222222', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'function', 'beginner',
-'各要素を変換した新しい配列',
-'map()は各要素にコールバックを適用し、結果を新しい配列で返します。',
-'[1, 2, 3].map(x => x * 2)  // [2, 4, 6]\nusers.map(u => u.name)',
-'配列変換の基本',
-ARRAY['元の配列は変更されない', 'forEachと違って値を返す', 'undefinedも配列に含まれる', 'async/awaitと組み合わせる時はPromise.all()'], true),
-
-('array-filter', 'Array.filter()', '22222222-2222-2222-2222-222222222222', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'function', 'beginner',
-'条件に合う要素だけ抽出',
-'filter()は条件を満たす要素だけを含む新しい配列を返します。',
-'[1, 2, 3, 4].filter(x => x > 2)  // [3, 4]\nusers.filter(u => u.active)',
-'ふるいにかける',
-ARRAY['元の配列は変更されない', '空配列が返ることもある', 'findは最初の1つだけ', 'truthyな値だけ残すなら.filter(Boolean)'], true),
-
 ('array-includes', 'Array.includes()', '22222222-2222-2222-2222-222222222222', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'function', 'beginner',
 '要素が含まれるか判定',
 'includes()は配列に指定した要素が含まれるかをbooleanで返します。',
@@ -348,13 +336,6 @@ ARRAY['1つでも失敗すると全体が失敗', 'Promise.allSettled()なら全
 '競争させる',
 ARRAY['タイムアウト実装によく使う', '残りのPromiseも実行は続く', 'Promise.any()は最初の成功だけ', '使用頻度は低め'], true),
 
-('async-await', 'async/await', '22222222-2222-2222-2222-222222222222', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'syntax', 'intermediate',
-'非同期処理を同期的に書く',
-'async関数内でawaitを使うとPromiseの解決を待ってから次の行に進みます。',
-'async function getData() {\n  const res = await fetch("/api");\n  return await res.json();\n}',
-'Promiseの糖衣構文',
-ARRAY['async関数は常にPromiseを返す', 'try-catchでエラーハンドリング', 'トップレベルawaitはES2022', '.then()チェーンより読みやすい'], true),
-
 -- その他重要な構文
 ('typeof', 'typeof', '22222222-2222-2222-2222-222222222222', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'operator', 'beginner',
 '値の型を文字列で取得',
@@ -412,13 +393,6 @@ ARRAY['シャローコピー、ネストは参照', 'スプレッド構文{...ob
 'オブジェクトを不変にする',
 ARRAY['シャローフリーズ、ネストは凍結されない', 'strictモードでは変更時にエラー', 'Object.isFrozen()で確認', '定数オブジェクトに'], true),
 
-('console-log', 'console.log()', '22222222-2222-2222-2222-222222222222', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'function', 'beginner',
-'コンソールに出力',
-'console.log()は引数をコンソールに出力します。デバッグの基本。',
-'console.log("Hello");\nconsole.log("x =", x, "y =", y);',
-'デバッグの友',
-ARRAY['本番環境では消すか無効化しろ', 'console.error/warn/infoもある', 'console.table()でオブジェクトを表形式', 'console.time()で時間計測'], true),
-
 ('setinterval', 'setInterval()', '22222222-2222-2222-2222-222222222222', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'function', 'beginner',
 '一定間隔で繰り返し実行',
 'setInterval(callback, delay)は指定ミリ秒ごとにコールバックを繰り返し実行します。',
@@ -433,7 +407,7 @@ ARRAY['clearInterval()で停止', '前の実行が終わる前に次が始まる
 '簡易データベース',
 ARRAY['文字列しか保存できない、JSON.stringify()で', '同一オリジン内で共有', 'sessionStorageはタブを閉じると消える', '5MB程度の容量制限'], true);
 
--- ===========================================
+
 -- BASH 追加エントリ (20件)
 -- language_id: 33333333-3333-3333-3333-333333333333
 -- category_id: ca111111-1111-1111-1111-111111111111
@@ -477,13 +451,6 @@ ARRAY['-uでunified形式（見やすい）', '-rでディレクトリ再帰比�
 'テープアーカイブの略',
 ARRAY['-cで作成、-xで展開、-tで一覧', '-zでgzip圧縮', '-vで詳細表示', 'オプションの順番を覚えるのが難関'], true),
 
-('chmod', 'chmod', '33333333-3333-3333-3333-333333333333', 'ca111111-1111-1111-1111-111111111111', 'function', 'intermediate',
-'ファイルのパーミッションを変更',
-'chmodはファイルやディレクトリのアクセス権限を変更します。',
-'chmod 755 script.sh\nchmod +x script.sh\nchmod u+rw,go-w file.txt',
-'権限を与える',
-ARRAY['755や644の数字を覚えろ', '+xで実行権限追加', '-Rで再帰的に変更', 'u=user, g=group, o=other'], true),
-
 ('chown', 'chown', '33333333-3333-3333-3333-333333333333', 'ca111111-1111-1111-1111-111111111111', 'function', 'intermediate',
 'ファイルの所有者を変更',
 'chownはファイルの所有者やグループを変更します。',
@@ -511,21 +478,6 @@ ARRAY['第2引数で拡張子も除去できる', 'dirname と対になる', '�
 'dirname /path/to/file.txt  # /path/to',
 'ディレクトリだけ欲しい時に',
 ARRAY['basename と対になる', 'シェルスクリプトでよく使う', '${var%/*}でも同じことができる', 'スクリプトの場所取得に$(dirname $0)'], true),
-
--- 構文
-('if', 'if文', '33333333-3333-3333-3333-333333333333', 'ca111111-1111-1111-1111-111111111111', 'syntax', 'beginner',
-'条件分岐',
-'if文で条件に応じた処理を分岐します。',
-'if [ "$x" = "yes" ]; then\n  echo "Yes!"\nelif [ "$x" = "no" ]; then\n  echo "No!"\nelse\n  echo "Unknown"\nfi',
-'分岐の基本',
-ARRAY['[ ]の中はスペース必須', '[[ ]]の方がモダンで機能豊富', 'fiで終わるのを忘れるな', '-eq/-ne/-lt/-gtで数値比較'], true),
-
-('for', 'for文', '33333333-3333-3333-3333-333333333333', 'ca111111-1111-1111-1111-111111111111', 'syntax', 'beginner',
-'繰り返し処理',
-'for文でリストの要素を順に処理します。',
-'for i in 1 2 3; do\n  echo $i\ndone\nfor f in *.txt; do\n  echo "$f"\ndone',
-'ループの基本',
-ARRAY['in の後にリストを書く', 'doneで終わるのを忘れるな', '{1..10}で連番', 'globパターンでファイル一覧'], true),
 
 ('while', 'while文', '33333333-3333-3333-3333-333333333333', 'ca111111-1111-1111-1111-111111111111', 'syntax', 'intermediate',
 '条件が真の間繰り返す',
