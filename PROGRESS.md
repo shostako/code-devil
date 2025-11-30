@@ -1,7 +1,7 @@
 # プロジェクト進捗状況
 
 ## 現在の状態
-- **最終更新**: 2025-12-01 05:10
+- **最終更新**: 2025-12-01 05:37
 - **アクティブタスク**: Phase 4 コンテンツ拡充完了
 
 ## 完了済み
@@ -60,6 +60,5 @@ npm run dev -- -H 0.0.0.0 -p 3000
 ```
 
 ## 直近のGitコミット
+- 713763b feat: Add Bash/Shell language and enhance sarcasm
 - 4a6c8b1 fix: Remove @typescript-eslint dependency for Render deployment
-- 7f95808 feat: Phase 2 Supabase連携完了
-- bb60d56 docs: PROGRESS.md更新（Phase 2準備完了）
