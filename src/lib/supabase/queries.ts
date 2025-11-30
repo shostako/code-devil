@@ -22,6 +22,8 @@ function transformEntry(row: Record<string, unknown>): Entry {
     code_example: row.code_example as string | undefined,
     sarcastic_title: row.sarcastic_title as string | undefined,
     sarcastic_notes: row.sarcastic_notes as string[] | undefined,
+    angel_title: row.angel_title as string | undefined,
+    angel_notes: row.angel_notes as string[] | undefined,
     is_published: row.is_published as boolean,
     created_at: row.created_at as string,
     updated_at: row.updated_at as string,

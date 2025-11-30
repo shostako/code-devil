@@ -14,6 +14,8 @@ export interface Entry {
   code_example?: string;
   sarcastic_title?: string;
   sarcastic_notes?: string[];
+  angel_title?: string;
+  angel_notes?: string[];
   is_published: boolean;
   source_file?: string;
   file_hash?: string;
