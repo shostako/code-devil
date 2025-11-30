@@ -1,8 +1,8 @@
 # プロジェクト進捗状況
 
 ## 現在の状態
-- **最終更新**: 2025-11-30 19:05
-- **アクティブタスク**: Phase 1 MVP 完了
+- **最終更新**: 2025-11-30 19:10
+- **アクティブタスク**: Phase 1.6 完了、Phase 2へ
 
 ## 完了済み
 - [x] プロジェクト作成
@@ -15,24 +15,29 @@
   - ダークモード対応（next-themes）
   - コードシンタックスハイライト（react-syntax-highlighter）
   - モックデータ：Python 5件、JavaScript 5件
+- [x] Phase 1.6 - 検索機能
+  - SearchBarコンポーネント（再利用可能な検索入力）
+  - useSearchフック（検索ロジックの共通化）
+  - EntryListWithSearch（言語ページ用検索付きリスト）
+  - GlobalSearch（トップページの全言語横断検索）
 
 ## 未完了・保留
-- [ ] Phase 1.6 - 検索/フィルター機能
 - [ ] Phase 2 - Supabase連携
 - [ ] Phase 3 - デプロイ・テスト
 
 ## 次セッションへの引き継ぎ
-- **次のアクション**: Phase 1.6（検索/フィルター）または Phase 2（Supabase連携）
+- **次のアクション**: Phase 2（Supabase連携）
 - **重要な発見**: Next.js 14.2はnext.config.tsをサポートしない（.mjs必須）
 - **参照すべきリソース**: `.tmp/requirements.md`, `.tmp/design.md`, `.tmp/tasks.md`
 
 ## 動作確認方法
 ```bash
 cd ~/ClaudeCode/code-devil
-npm run dev
-# http://localhost:3000 でアクセス
+npm run dev -- -H 0.0.0.0 -p 3000
+# http://localhost:3000 でアクセス（WSL環境では-H 0.0.0.0必須）
 ```
 
 ## 直近のGitコミット
+- a4cc3a8 feat: Phase 1.6 検索機能追加
 - c6de149 feat: Phase 1 MVP - エントリ表示機能（モックデータ）
 - d2cda3c Initial project setup with Kiro-Style template
