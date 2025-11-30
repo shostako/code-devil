@@ -1,8 +1,8 @@
 -- 008: JavaScript/Bash追加エントリ
 -- Python 30件は007で追加済み
--- JavaScript 27件（重複3件除外: array-map, array-filter, async-await）
--- Bash 20件
--- 合計47件追加
+-- JavaScript 26件（重複4件除外: array-map, array-filter, async-await, console-log）
+-- Bash 17件（重複3件除外: chmod, if, for）
+-- 合計43件追加
 
 -- ===========================================
 -- JAVASCRIPT 追加エントリ (30件)
@@ -177,13 +177,6 @@ ARRAY['シャローコピー、ネストは参照', 'スプレッド構文{...ob
 'オブジェクトを不変にする',
 ARRAY['シャローフリーズ、ネストは凍結されない', 'strictモードでは変更時にエラー', 'Object.isFrozen()で確認', '定数オブジェクトに'], true),
 
-('console-log', 'console.log()', '22222222-2222-2222-2222-222222222222', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'function', 'beginner',
-'コンソールに出力',
-'console.log()は引数をコンソールに出力します。デバッグの基本。',
-'console.log("Hello");\nconsole.log("x =", x, "y =", y);',
-'デバッグの友',
-ARRAY['本番環境では消すか無効化しろ', 'console.error/warn/infoもある', 'console.table()でオブジェクトを表形式', 'console.time()で時間計測'], true),
-
 ('setinterval', 'setInterval()', '22222222-2222-2222-2222-222222222222', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'function', 'beginner',
 '一定間隔で繰り返し実行',
 'setInterval(callback, delay)は指定ミリ秒ごとにコールバックを繰り返し実行します。',
@@ -242,13 +235,6 @@ ARRAY['-uでunified形式（見やすい）', '-rでディレクトリ再帰比�
 'テープアーカイブの略',
 ARRAY['-cで作成、-xで展開、-tで一覧', '-zでgzip圧縮', '-vで詳細表示', 'オプションの順番を覚えるのが難関'], true),
 
-('chmod', 'chmod', '33333333-3333-3333-3333-333333333333', 'ca111111-1111-1111-1111-111111111111', 'function', 'intermediate',
-'ファイルのパーミッションを変更',
-'chmodはファイルやディレクトリのアクセス権限を変更します。',
-'chmod 755 script.sh\nchmod +x script.sh\nchmod u+rw,go-w file.txt',
-'権限を与える',
-ARRAY['755や644の数字を覚えろ', '+xで実行権限追加', '-Rで再帰的に変更', 'u=user, g=group, o=other'], true),
-
 ('chown', 'chown', '33333333-3333-3333-3333-333333333333', 'ca111111-1111-1111-1111-111111111111', 'function', 'intermediate',
 'ファイルの所有者を変更',
 'chownはファイルの所有者やグループを変更します。',
@@ -276,21 +262,6 @@ ARRAY['第2引数で拡張子も除去できる', 'dirname と対になる', '�
 'dirname /path/to/file.txt  # /path/to',
 'ディレクトリだけ欲しい時に',
 ARRAY['basename と対になる', 'シェルスクリプトでよく使う', '${var%/*}でも同じことができる', 'スクリプトの場所取得に$(dirname $0)'], true),
-
--- 構文
-('if', 'if文', '33333333-3333-3333-3333-333333333333', 'ca111111-1111-1111-1111-111111111111', 'syntax', 'beginner',
-'条件分岐',
-'if文で条件に応じた処理を分岐します。',
-'if [ "$x" = "yes" ]; then\n  echo "Yes!"\nelif [ "$x" = "no" ]; then\n  echo "No!"\nelse\n  echo "Unknown"\nfi',
-'分岐の基本',
-ARRAY['[ ]の中はスペース必須', '[[ ]]の方がモダンで機能豊富', 'fiで終わるのを忘れるな', '-eq/-ne/-lt/-gtで数値比較'], true),
-
-('for', 'for文', '33333333-3333-3333-3333-333333333333', 'ca111111-1111-1111-1111-111111111111', 'syntax', 'beginner',
-'繰り返し処理',
-'for文でリストの要素を順に処理します。',
-'for i in 1 2 3; do\n  echo $i\ndone\nfor f in *.txt; do\n  echo "$f"\ndone',
-'ループの基本',
-ARRAY['in の後にリストを書く', 'doneで終わるのを忘れるな', '{1..10}で連番', 'globパターンでファイル一覧'], true),
 
 ('while', 'while文', '33333333-3333-3333-3333-333333333333', 'ca111111-1111-1111-1111-111111111111', 'syntax', 'intermediate',
 '条件が真の間繰り返す',
