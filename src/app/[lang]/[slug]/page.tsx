@@ -4,7 +4,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import Sidebar from "@/components/layout/Sidebar";
 import EntryDetail from "@/components/entry/EntryDetail";
-import { getEntryBySlug, getLanguageBySlug } from "@/lib/data";
+import { getEntryBySlug, getLanguageBySlug, getEntriesByLanguage } from "@/lib/data";
 
 interface Props {
   params: Promise<{ lang: string; slug: string }>;
@@ -32,6 +32,12 @@ export default async function EntryPage({ params }: Props) {
     notFound();
   }
 
+  // 前後のエントリを取得
+  const allEntries = await getEntriesByLanguage(lang);
+  const currentIndex = allEntries.findIndex((e) => e.slug === slug);
+  const prevEntry = allEntries[(currentIndex - 1 + allEntries.length) % allEntries.length];
+  const nextEntry = allEntries[(currentIndex + 1) % allEntries.length];
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -57,14 +63,33 @@ export default async function EntryPage({ params }: Props) {
           {/* Entry Detail */}
           <EntryDetail entry={entry} languageSlug={lang} />
 
-          {/* Back Link */}
+          {/* Navigation */}
           <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800">
-            <Link
-              href={`/${lang}`}
-              className="text-red-600 dark:text-red-500 hover:underline"
-            >
-              ← {language.name}の一覧に戻る
-            </Link>
+            <div className="flex items-center justify-between">
+              {/* 前の用語 */}
+              <Link
+                href={`/${lang}/${prevEntry.slug}`}
+                className="text-red-600 dark:text-red-500 hover:underline"
+              >
+                ← {prevEntry.name}
+              </Link>
+
+              {/* 一覧に戻る */}
+              <Link
+                href={`/${lang}`}
+                className="text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-500"
+              >
+                {language.name}の一覧
+              </Link>
+
+              {/* 次の用語 */}
+              <Link
+                href={`/${lang}/${nextEntry.slug}`}
+                className="text-red-600 dark:text-red-500 hover:underline"
+              >
+                {nextEntry.name} →
+              </Link>
+            </div>
           </div>
         </main>
       </div>
