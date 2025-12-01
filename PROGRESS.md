@@ -1,8 +1,8 @@
 # プロジェクト進捗状況
 
 ## 現在の状態
-- **最終更新**: 2025-12-01 07:38
-- **アクティブタスク**: Phase 4 コンテンツ拡充完了
+- **最終更新**: 2025-12-01 23:00
+- **アクティブタスク**: なし（区切り）
 
 ## 完了済み
 - [x] プロジェクト作成
@@ -27,24 +27,25 @@
   - データ統合レイヤー（src/lib/data.ts）
   - Supabaseプロジェクト作成・接続完了
   - 本番データでの動作確認OK
-
-## 未完了・保留
-- [x] Phase 3 - デプロイ（Render）
+- [x] Phase 3 - デプロイ（Vercel）
 - [x] Phase 4 - コンテンツ拡充
-  - Bash/Shell言語追加（12エントリ）
-  - 既存Python/JSエントリの皮肉強化（10件）
+  - Bash/Shell言語追加（39エントリ）
+  - Python 53エントリ、JavaScript 49エントリ
+  - 全141エントリに天使・悪魔のノート追加
+- [x] Phase 5 - 機能改善（2025-12-01）
+  - GlobalSearchのBash検索対応（mockData→Supabaseクライアント）
+  - 用語詳細ページに前後ナビゲーション追加
 
 ## 次セッションへの引き継ぎ
-- **次のアクション**: 追加機能実装（必要に応じて）
+- **次のアクション**: 用語（エントリ）の追加
 - **重要な発見**:
-  - SupabaseのUIが更新され、anon keyは「Publishable key」という名前に変更された
-  - Next.js 14.2はnext.config.tsをサポートしない（.mjs必須）
-  - Render環境には@typescript-eslintがないので、eslint-disableコメントでこのルールを参照すると失敗する
-  - `as unknown as Type`のダブルキャストパターンが型安全なSupabase連携に有効
+  - GlobalSearchはクライアントコンポーネントなので、server.ts経由のSupabaseは使えない（next/headers依存）
+  - クライアントコンポーネントからは`@/lib/supabase/client`を直接使用する
+  - slug命名はDBと完全一致させること（SQL作成前に確認必須）
 - **参照すべきリソース**: `.tmp/requirements.md`, `.tmp/design.md`
 
-## Render情報
-- **Service Name**: code-devil
+## Vercel情報
+- **Project**: code-devil
 - **GitHub**: shostako/code-devil
 
 ## Supabase情報
@@ -60,5 +61,6 @@ npm run dev -- -H 0.0.0.0 -p 3000
 ```
 
 ## 直近のGitコミット
-- 02d791a refactor: マイグレーション統合（007に集約）
-- d08b305 fix: 008マイグレーションから重複エントリ削除
+- d30d1b9 feat: 用語詳細ページに前後ナビゲーションを追加
+- 27c2759 fix: GlobalSearchでBashが検索候補に出ない問題を修正
+- f5ad77b feat: 天使のノート機能追加
