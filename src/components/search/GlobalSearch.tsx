@@ -1,31 +1,75 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import Link from "next/link";
 import SearchBar from "@/components/ui/SearchBar";
-import { getAllEntries, languages } from "@/lib/mockData";
-import type { Entry } from "@/types/entry";
+import { createClient } from "@/lib/supabase/client";
+import type { Entry, Language } from "@/types/entry";
 
 interface SearchResult extends Entry {
   languageName: string;
   languageSlug: string;
 }
 
-function getLanguageInfo(languageId: string): { name: string; slug: string } {
-  const lang = languages.find((l) => l.id === languageId);
-  return {
-    name: lang?.name || "Unknown",
-    slug: lang?.slug || "",
-  };
-}
-
 export default function GlobalSearch() {
   const [query, setQuery] = useState("");
+  const [allEntries, setAllEntries] = useState<Entry[]>([]);
+  const [languages, setLanguages] = useState<Language[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const allEntries = useMemo(() => getAllEntries(), []);
+  // データ取得
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const supabase = createClient();
+
+        // エントリと言語を並行取得
+        const [entriesRes, languagesRes] = await Promise.all([
+          supabase
+            .from("entries")
+            .select("*")
+            .eq("is_published", true)
+            .order("name"),
+          supabase
+            .from("languages")
+            .select("*")
+            .order("name"),
+        ]);
+
+        if (entriesRes.error) {
+          console.error("Failed to fetch entries:", entriesRes.error);
+        } else {
+          setAllEntries(entriesRes.data as unknown as Entry[]);
+        }
+
+        if (languagesRes.error) {
+          console.error("Failed to fetch languages:", languagesRes.error);
+        } else {
+          setLanguages(languagesRes.data as unknown as Language[]);
+        }
+      } catch (error) {
+        console.error("Failed to fetch data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchData();
+  }, []);
+
+  // 言語情報を取得
+  const getLanguageInfo = useCallback(
+    (languageId: string): { name: string; slug: string } => {
+      const lang = languages.find((l) => l.id === languageId);
+      return {
+        name: lang?.name || "Unknown",
+        slug: lang?.slug || "",
+      };
+    },
+    [languages]
+  );
 
   const searchResults = useMemo((): SearchResult[] => {
-    if (!query.trim()) {
+    if (!query.trim() || allEntries.length === 0) {
       return [];
     }
 
@@ -48,7 +92,7 @@ export default function GlobalSearch() {
         };
       })
       .slice(0, 10); // 最大10件表示
-  }, [allEntries, query]);
+  }, [allEntries, query, getLanguageInfo]);
 
   const handleSearch = useCallback((newQuery: string) => {
     setQuery(newQuery);
@@ -65,7 +109,11 @@ export default function GlobalSearch() {
       {/* Search Results */}
       {query && (
         <div className="mt-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-lg">
-          {searchResults.length === 0 ? (
+          {isLoading ? (
+            <div className="p-4 text-center text-gray-500 dark:text-gray-400">
+              読み込み中...
+            </div>
+          ) : searchResults.length === 0 ? (
             <div className="p-4 text-center text-gray-500 dark:text-gray-400">
               「{query}」に一致する結果が見つかりません
             </div>
