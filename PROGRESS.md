@@ -50,11 +50,13 @@
   - **最終総計**: 542エントリ（6言語）
 
 ## 次セッションへの引き継ぎ
-- **次のアクション**: マイグレーション実行・動作確認
+- **次のアクション**: 特になし（Phase 6完了）
 - **重要な発見**:
   - GlobalSearchはクライアントコンポーネントなので、server.ts経由のSupabaseは使えない（next/headers依存）
   - クライアントコンポーネントからは`@/lib/supabase/client`を直接使用する
   - slug命名はDBと完全一致させること（SQL作成前に確認必須）
+  - UUIDは16進数（0-9, a-f）のみ。`ts`, `sq`等のプレフィックスは無効
+  - Supabase CLIがハングする場合はDashboard SQL Editorで代替可能
 - **参照すべきリソース**: `.tmp/requirements.md`, `.tmp/design.md`
 
 ## Vercel情報
@@ -74,5 +76,6 @@ npm run dev -- -H 0.0.0.0 -p 3000
 ```
 
 ## 直近のGitコミット
+- 11fa1be chore: Supabase CLIをアンインストール
+- 66c140c feat: 6言語542エントリに大規模拡充
 - 6134303 docs: 進捗とログを更新
-- d30d1b9 feat: 用語詳細ページに前後ナビゲーションを追加
