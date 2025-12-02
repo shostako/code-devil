@@ -14,24 +14,18 @@ export default function Header() {
     setMounted(true);
   }, []);
 
-  const cycleTheme = () => {
-    if (theme === "light") setTheme("dark");
-    else if (theme === "dark") setTheme("system");
-    else setTheme("light");
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
   };
 
   const getThemeIcon = () => {
     if (!mounted) return "...";
-    if (theme === "light") return "☀️";
-    if (theme === "dark") return "🌙";
-    return "💻";
+    return theme === "dark" ? "☀️" : "🌙";
   };
 
   const getThemeLabel = () => {
     if (!mounted) return "";
-    if (theme === "light") return "ライト";
-    if (theme === "dark") return "ダーク";
-    return "システム";
+    return theme === "dark" ? "ライト" : "ダーク";
   };
 
   return (
@@ -82,9 +76,9 @@ export default function Header() {
         {/* Right: Theme Toggle */}
         <div className="flex items-center gap-4">
           <button
-            onClick={cycleTheme}
+            onClick={toggleTheme}
             className="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-            title={`現在: ${getThemeLabel()}`}
+            title={`${getThemeLabel()}モードに切り替え`}
           >
             <span>{getThemeIcon()}</span>
             <span className="text-sm hidden sm:inline">{getThemeLabel()}</span>
