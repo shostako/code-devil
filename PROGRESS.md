@@ -70,7 +70,7 @@
   - Supabase CLIがハングする場合はDashboard SQL Editorで代替可能
 - **参照すべきリソース**: `.tmp/requirements.md`, `.tmp/design.md`
 
-## Vercel情報
+## Render情報
 - **Project**: code-devil
 - **GitHub**: shostako/code-devil
 
