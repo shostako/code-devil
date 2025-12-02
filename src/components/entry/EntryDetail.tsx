@@ -27,7 +27,7 @@ export default function EntryDetail({ entry, languageSlug }: EntryDetailProps) {
           </span>
         </div>
 
-        <h1 className="text-3xl md:text-4xl font-bold font-mono mb-2">
+        <h1 className="text-2xl md:text-4xl font-bold font-mono mb-2 break-all">
           {entry.name}
         </h1>
 

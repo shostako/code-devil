@@ -28,10 +28,10 @@ export default function CodeBlock({ code, language }: CodeBlockProps) {
   const style = mounted && resolvedTheme === "dark" ? oneDark : oneLight;
 
   return (
-    <div className="relative group">
+    <div className="relative group overflow-x-auto">
       <button
         onClick={copyToClipboard}
-        className="absolute right-2 top-2 px-2 py-1 text-xs bg-gray-200 dark:bg-gray-700 rounded opacity-0 group-hover:opacity-100 transition-opacity"
+        className="absolute right-2 top-2 px-2 py-1 text-xs bg-gray-200 dark:bg-gray-700 rounded opacity-0 group-hover:opacity-100 transition-opacity z-10"
       >
         {copied ? "Copied!" : "Copy"}
       </button>
@@ -41,8 +41,9 @@ export default function CodeBlock({ code, language }: CodeBlockProps) {
         customStyle={{
           margin: 0,
           borderRadius: "0.5rem",
-          fontSize: "0.875rem",
+          fontSize: "0.75rem",
         }}
+        wrapLongLines={false}
       >
         {code}
       </SyntaxHighlighter>
