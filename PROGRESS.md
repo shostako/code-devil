@@ -87,5 +87,5 @@ npm run dev -- -H 0.0.0.0 -p 3000
 ```
 
 ## 直近のGitコミット
+- a45fd7e fix: テーマ切り替えボタンのUX改善
 - fe656b2 docs: Phase 7作業ログ追加、Render情報修正
-- bbe310a feat: スマホ対応（レスポンシブデザイン）
