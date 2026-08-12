@@ -193,7 +193,6 @@ code-devil/
 ├── supabase/
 │   └── migrations/         # DBマイグレーション
 ├── CLAUDE.md
-├── PROGRESS.md
 ├── package.json
 └── README.md
 ```
