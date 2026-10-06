@@ -16,8 +16,9 @@ npm install
 npm run dev        # http://localhost:3000
 ```
 
-環境変数を何も置かなければ、`src/lib/mockData.ts` の見本データ（約20エントリ）で動く。
-`.env.local` に Supabase の接続先（`NEXT_PUBLIC_SUPABASE_URL` と `NEXT_PUBLIC_SUPABASE_ANON_KEY`、書式は `.env.example`）を置くと、データベースから読む。どちらを使うかは `src/lib/data.ts` が切り替える。
+起動する前に、`.env.local` に Supabase の接続先（`NEXT_PUBLIC_SUPABASE_URL` と `NEXT_PUBLIC_SUPABASE_ANON_KEY`、書式は `.env.example`）を置く。
+ホーム画面（全言語の検索を含む）と `/api/languages` は Supabase を直接読むので、接続先が無いと表示できない。
+言語別の一覧とエントリの詳細だけは `src/lib/data.ts` を通るので、接続先が無いと `src/lib/mockData.ts` の見本データ（Python と JavaScript の計10エントリ）で表示する。
 
 ## 技術構成
 
@@ -37,7 +38,7 @@ src/
 │   └── api/languages/     言語一覧の API
 ├── components/            画面部品（entry / layout / search / ui）
 ├── hooks/                 検索
-├── lib/                   データ取得（data.ts が見本データと Supabase を切り替える）
+├── lib/                   データ取得（supabase/ が問い合わせ、data.ts が見本データとの切り替え役）
 └── types/
 supabase/migrations/       言語とエントリを追加した SQL
 ```
