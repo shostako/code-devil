@@ -1,71 +1,54 @@
-# code-devil
+# CodeDevil
 
-{{PROJECT_DESCRIPTION}}
+プログラミング言語の関数・構文・標準ライブラリを、「悪魔の辞典」の調子で解説するリファレンスサイト。
 
-## Quick Start
+各エントリには、普通の説明・構文・コード例に加えて、2種類の短評を付けている。
+
+- 悪魔のノート: 現場のあるあるや落とし穴を、皮肉まじりに書いたもの
+- 天使のノート: 同じ話を素直に言い直した助言
+
+収録は Python・JavaScript・TypeScript・Bash・SQL・HTML/CSS の6言語。言語別の一覧、カテゴリ分け、全言語を横断する検索、エントリ間の前後移動、ライト/ダーク切替、スマホ表示に対応している。
+
+## 動かし方
 
 ```bash
-# 依存関係インストール
 npm install
-
-# 開発サーバー起動
-npm run dev
+npm run dev        # http://localhost:3000
 ```
 
-## Tech Stack
+起動する前に、`.env.local` に Supabase の接続先（`NEXT_PUBLIC_SUPABASE_URL` と `NEXT_PUBLIC_SUPABASE_ANON_KEY`、書式は `.env.example`）を置く。
+ホーム画面（全言語の検索を含む）と `/api/languages` は Supabase を直接読むので、接続先が無いと表示できない。
+言語別の一覧とエントリの詳細だけは `src/lib/data.ts` を通るので、接続先が無いと `src/lib/mockData.ts` の見本データ（Python と JavaScript の計10エントリ）で表示する。
 
-- **Framework**: Next.js 14 (App Router)
-- **Language**: TypeScript (strict mode)
-- **Styling**: Tailwind CSS
-- **State Management**: Zustand
+## 技術構成
 
-## Project Structure
+- Next.js 14（App Router）、TypeScript（strict）
+- Tailwind CSS、next-themes
+- Zustand
+- Supabase（`@supabase/ssr`）
+- コード例の色付けは react-syntax-highlighter
+
+## 構成
 
 ```
-├── .claude/commands/  # Claude Code カスタムコマンド
-├── .tmp/              # 仕様書（requirements, design, tasks）
-├── docs/              # ドキュメント
-├── logs/              # 作業ログ
-├── src/
-│   ├── app/           # ルーティング
-│   ├── components/    # UIコンポーネント
-│   ├── lib/           # ビジネスロジック
-│   ├── hooks/         # カスタムフック
-│   ├── types/         # 型定義
-│   └── utils/         # ユーティリティ
-└── public/            # 静的ファイル
+src/
+├── app/
+│   ├── [lang]/            言語別の一覧
+│   ├── [lang]/[slug]/     エントリの詳細
+│   └── api/languages/     言語一覧の API
+├── components/            画面部品（entry / layout / search / ui）
+├── hooks/                 検索
+├── lib/                   データ取得（supabase/ が問い合わせ、data.ts が見本データとの切り替え役）
+└── types/
+supabase/migrations/       言語とエントリを追加した SQL
 ```
 
-## Development Workflow
-
-このプロジェクトはKiro-Style Spec-Driven Developmentを採用しています。
-
-### カスタムコマンド
-
-| コマンド | 説明 |
-|----------|------|
-| `/init` | プロジェクト初期化 |
-| `/spec` | 仕様策定（requirements, design, tasks） |
-| `/implement` | 実装フェーズ |
-| `/review` | レビュー・検証 |
-
-### 仕様書
-
-- `.tmp/requirements.md` - 要件定義
-- `.tmp/design.md` - 技術設計
-- `.tmp/tasks.md` - タスクリスト
-
-## Scripts
+## スクリプト
 
 ```bash
-npm run dev          # 開発サーバー
-npm run build        # プロダクションビルド
-npm run start        # ビルド後のプレビュー
-npm run lint         # ESLint実行
-npm run type-check   # TypeScript型チェック
-npm run test         # テスト実行
+npm run dev          # 開発サーバ
+npm run build        # 本番ビルド
+npm run start        # ビルドした物を起動
+npm run lint         # ESLint
+npm run type-check   # 型チェック
 ```
-
-## License
-
-{{LICENSE}}
